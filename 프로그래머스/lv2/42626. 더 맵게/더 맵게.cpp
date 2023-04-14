@@ -13,7 +13,7 @@ int solution(vector<int> scoville, int K) {
         pq.push(-scoville[i]); // Min Heap과 같은 효과
     }
         
-    while(!pq.empty() && -pq.top() < K){
+    while(-pq.top() < K){
         int l = -pq.top();
         pq.pop();
         if(pq.empty()) {
