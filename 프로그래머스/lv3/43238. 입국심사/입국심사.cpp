@@ -1,6 +1,5 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
@@ -9,9 +8,7 @@ long long solution(int n, vector<int> times) {
     
     long long l = 1;
     long long r = 2e18;
-    
-    sort(times.begin(), times.end());
-    
+        
     // 종료 조건: l > r
     while(l <= r){
         long long mid = (l + r) / 2;
