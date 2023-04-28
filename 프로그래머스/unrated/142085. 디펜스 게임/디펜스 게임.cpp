@@ -17,7 +17,11 @@ int solution(int n, int k, vector<int> enemy) {
 
     // 한개씩 빼면서 비교
     while(1){
-        if(answer >= s) break; // 적군의 길이가 현재 참조할 enemy 순서보다 작거나 같으면 종료
+        // 적군의 길이가 현재 참조할 enemy 순서보다 작거나 같으면 정답 변경 후 종료
+        if(answer >= s) {
+            answer = s; // 정답이 초과되면 enemy의 길이로 변경
+            break;
+        };
         
         pq.push(-enemy[answer]); // 새로운 적을 넣기
         int e = -pq.top(); // 가장 적은 적군의 수
@@ -33,8 +37,6 @@ int solution(int n, int k, vector<int> enemy) {
             break;
         }
     }
-    
-    if(answer >= s) answer = s; // 정답이 초과되면 enemy의 길이로 변경
-    
+        
     return answer;
 }
