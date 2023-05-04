@@ -17,12 +17,13 @@ void dfs(int node, int parent)
         if(visited[nNode]) continue; // 이미 방문했으면 무시
         
         dfs(nNode, node);
-    }
-     // 부모, 자식 둘 다 등대가 안켜져 있으면 부모 등대 켜기
-    if(!on[node] && !on[parent]) {
-        on[parent] = 1;
-        answer++;
-    }
+        
+        // 부모, 자식 둘 다 등대가 안켜져 있으면 부모 등대 켜기
+        if(!on[nNode] && !on[node]) {
+            on[node] = 1;
+            answer++;
+        }
+    }   
 }
 
 int solution(int n, vector<vector<int>> lighthouse) {
