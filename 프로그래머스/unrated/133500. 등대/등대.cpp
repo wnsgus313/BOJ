@@ -19,7 +19,7 @@ void dfs(int node, int parent)
         dfs(nNode, node);
     }
      // 부모, 자식 둘 다 등대가 안켜져 있으면 부모 등대 켜기
-    if(!on[node] && !on[parent] && parent != 0) {
+    if(!on[node] && !on[parent]) {
         on[parent] = 1;
         answer++;
     }
@@ -38,7 +38,7 @@ int solution(int n, vector<vector<int>> lighthouse) {
     }
     
     // 등대 1번을 root라고 생각하고 시작
-    dfs(1, 0);
+    dfs(adj[1][0], 1);
     
     return answer;
 }
