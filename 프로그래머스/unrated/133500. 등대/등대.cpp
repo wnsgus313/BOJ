@@ -1,45 +1,34 @@
 #include <string>
 #include <vector>
-
+#include <iostream>
+#include <algorithm>
+#include <limits.h>
 using namespace std;
-
-int answer;
-vector<vector<int> > adj;
-vector<int> visited;
-vector<int> on;
-void dfs(int node, int parent)
-{
-    visited[node] = 1;
-
-    for(int i=0; i<adj[node].size(); i++){
-        int nNode = adj[node][i];
-        
-        if(visited[nNode]) continue; // 이미 방문했으면 무시
-        
-        dfs(nNode, node);
-        
-        // 부모, 자식 둘 다 등대가 안켜져 있으면 부모 등대 켜기
-        if(!on[nNode] && !on[node]) {
-            on[node] = 1;
-            answer++;
-        }
-    }   
+vector<int> edge[100001];
+int dp[100001][2];
+bool visited[100001];
+void dfs(int index){
+    dp[index][0] = 0;
+    dp[index][1] = 1;
+    visited[index] = true;
+    for(int i = 0; i < edge[index].size(); i++){
+        int next_index = edge[index][i];
+        if(visited[next_index]) continue;
+        dfs(next_index);
+        dp[index][1] += min(dp[next_index][0], dp[next_index][1]);
+        dp[index][0] += dp[next_index][1];
+    }
 }
 
 int solution(int n, vector<vector<int>> lighthouse) {
-    adj.resize(n+1);
-    visited.resize(n+1);
-    fill(on.begin(), on.end(), 0);
-    on.resize(n+1);
-    fill(on.begin(), on.end(), 0);
-    
-    for(int i=0; i<lighthouse.size(); i++){
-        adj[lighthouse[i][0]].push_back(lighthouse[i][1]);
-        adj[lighthouse[i][1]].push_back(lighthouse[i][0]);
+    int answer = 0;
+    for(int i = 0; i < lighthouse.size(); i++){
+        int start = lighthouse[i][0]; int end = lighthouse[i][1];
+        edge[start].push_back(end);
+        edge[end].push_back(start);
     }
-    
-    // 등대 1번을 root라고 생각하고 시작
-    dfs(adj[1][0], 1);
-    
+    dfs(1);
+    cout << dp[1][0] << ' ' << dp[1][1];
+    answer = min(dp[1][0], dp[1][1]);
     return answer;
 }
